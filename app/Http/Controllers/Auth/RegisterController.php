@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
 use File;
 use Illuminate\Http\Request;
+use Mail;
+use App\Mail\ComplaintEmail;
 
 class RegisterController extends Controller
 {
@@ -35,6 +37,8 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
+
+ 
 
     /**
      * Create a new controller instance.
@@ -121,19 +125,52 @@ class RegisterController extends Controller
             'roleName'=>$data['role']
         ]);
 
+        
+
         return $user; 
     }
 
+    
 
     public function register(Request $request)
     {
+        $dmvEmail="bangercosl@gmail.com";
+        $checked=FALSE;
+        $licenses=[];
+        $location='C:/Users/INTEL/Desktop/EIRLS/BangerCo/public/license.csv';
+        if (($handle = fopen($location, 'r')) !== FALSE) { // Check the resource is valid
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) { // Check opening the file is OK!
+                foreach($data as $line){
+                    if(strcmp($line,$request['licenseNo']) != -1){
+                        $checked=TRUE;
+                    }
+                }
+            }
+        }
+        fclose($handle);
+
+
         $this->validator($request->all())->validate();
 
+        if($checked == FALSE){
+           
         event(new Registered($user = $this->create($request->all())));
 
         //$this->guard()->login($user);
 
         return $this->registered($request, $user)
                         ?: redirect($this->redirectPath())->with('info','Thank you for registering with us. We will review your account and send you a email when it is active.');
+        }
+        else{
+            $date = date('m/d/Y h:i:s a', time());
+            $licenseNo=$request['licenseNo'];
+            $email=$request['email'];
+            Mail::to($dmvEmail)->send(new ComplaintEmail($date,$licenseNo,$email));
+            return redirect($this->redirectPath())->with('info','Something went wrong please try again later!');
+        }
     }
+
+
+
+    
 }

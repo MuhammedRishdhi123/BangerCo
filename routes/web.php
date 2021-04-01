@@ -43,7 +43,7 @@ Route::post('/userAction','adminController@userAction')->name('userAction')->mid
 Route::post('/bookingAction','adminController@bookingAction')->name('bookingAction')->middleware(['auth','auth.admin']);
 Route::post('/offerAction','adminController@offerAction')->name('offerAction')->middleware(['auth','auth.admin']);
 Route::post('/addOffer','offerController@addOffer')->middleware(['auth','auth.admin']);
-
+Route::get('/scrape','adminController@scrape');
 Auth::routes();
 
 

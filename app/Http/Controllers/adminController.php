@@ -12,6 +12,7 @@ use App\Booking;
 use App\Offer;
 use Mail;
 use App\Mail\RegisterEmail;
+use Goutte\Client;
 
 use Illuminate\Support\Facades\Validator;
 use DB;
@@ -55,9 +56,27 @@ class adminController extends Controller
         {
             if($request->action=='edit')
             {
+                
                 $booking=Booking::find($request->id);
-                $booking->status=$request['status'];
-                $booking->save();
+                if($request['status']=='p'){
+                    $client = new \GuzzleHttp\Client();
+                    $response = $client->request('get','http://127.0.0.1:8080/checkInsurance/'.$booking->user->licenseNo);
+                    \Log::info($booking);
+                   if($response->getBody()=='true'){
+                      return response()->json('FRAUD');
+                   }
+                   else{
+                    $booking->status=$request['status'];
+                    $booking->save();
+                   }
+                  
+                }
+                else
+                {
+                 $booking->status=$request['status'];
+                 $booking->save();
+                }
+                
             }
             if($request->action=='delete')
             {
@@ -87,6 +106,16 @@ class adminController extends Controller
             }
             return response()->json($request);
         }
+    }
+
+
+    public function scrape()
+    {
+        $client = new Client();
+        $crawler = $client->request('GET', 'https://www.malkey.lk/rates/self-drive-rates.html');
+        $data=$crawler->filter('table tbody')->first();
+       // $
+        return $data;
     }
     
 }

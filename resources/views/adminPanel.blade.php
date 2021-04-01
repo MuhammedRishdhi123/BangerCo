@@ -837,12 +837,16 @@
                     type: 'POST',
                     columns: {
                          identifier: [0, 'id'],
-                         editable: [[8, 'status', '{"a":"Accept","p":"Progressing","c":"Reject"}']]
+                         editable: [[8, 'status', '{"a":"Accept","p":"Progressing","c":"Reject","f":"Completed"}']]
                     },
                     restoreButton: false,
                     onSuccess: function (data, textStatus, jqXHR) {
                          if (data.action == 'delete') {
                               $('#' + data.id).remove();
+                         }
+                         else if(data=='FRAUD')
+                         {
+                              alert('User has got fraudalent claims !');
                          }
                     }
 
