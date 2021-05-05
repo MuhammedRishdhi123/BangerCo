@@ -111,10 +111,20 @@ class adminController extends Controller
 
     public function scrape()
     {
+        $data=array();
         $client = new Client();
         $crawler = $client->request('GET', 'https://www.malkey.lk/rates/self-drive-rates.html');
-        $data=$crawler->filter('table tbody')->first();
-       // $
+        $crawler->filter('table tbody tr')->each(function($node,$j=0){
+           $vehicledata=array();
+            $node->filter('td')->each(function($node1,$i=0){
+                global $vehicledata;
+               $vehicledata[$i]=$node1->text();
+               $i++;
+            });
+           // $data[$j]=$vehicledata;
+            \Log::info( $vehicledata);
+            $j++;
+        });
         return $data;
     }
     

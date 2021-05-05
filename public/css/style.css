@@ -1153,6 +1153,22 @@ https://templatemo.com/tm-516-known
   cursor: pointer;
 }
 
+.close2 {
+  color: #aaaaaa;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top:15px;
+  right: 15px;
+}
+
+.close2:hover,
+.close2:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .switch {
   position: relative;
   display: inline-block;
@@ -1383,4 +1399,9 @@ font-weight: 500;
 
 .text-white{
   color:white;
+}
+
+#checkprice{
+ margin-top: 10px;
+ margin-left:10px;
 }

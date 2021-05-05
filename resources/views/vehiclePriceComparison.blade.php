@@ -97,9 +97,9 @@
                                    @if(Auth::user()->role['roleName']=='customer')
                                    <li class=""><a href="/allbooking">My bookings</a></li>
                                    <li class=""><a href="/aboutus">Favourites</a></li>
-                                   @else
-                                   <li class=""><a href="/adminPanel">Dashboard</a></li>
-                                   @endif
+                              @else
+                                    <li class=""><a href="/adminPanel">Dashboard</a></li>
+                              @endif
                                    <li><a href="/team">Help</a></li>
 
                                    <li><a href="#"
@@ -134,23 +134,19 @@
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                          <li class="nav-item navtab">
                               <a class="nav-link active " id="home-tab" data-toggle="tab" href="#home" role="tab"
-                                   aria-controls="home" aria-selected="true"><i class="fa fa-car"></i>Manage
-                                   Vehicles</a>
+                                   aria-controls="home" aria-selected="true"><i class="fa fa-car"></i>Manage Vehicles</a>
                          </li>
                          <li class="nav-item navtab">
                               <a class="nav-link " id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                                   aria-controls="profile" aria-selected="false"><i class="fa fa-users"></i>&nbsp Manage
-                                   Users</a>
+                                   aria-controls="profile" aria-selected="false"><i class="fa fa-users"></i>&nbsp Manage Users</a>
                          </li>
                          <li class="nav-item navtab">
                               <a class="nav-link " id="messages-tab" data-toggle="tab" href="#messages" role="tab"
-                                   aria-controls="messages" aria-selected="false"><i class="fa fa-calendar"></i> Manage
-                                   Bookings </a>
+                                   aria-controls="messages" aria-selected="false"><i class="fa fa-calendar"></i> Manage Bookings </a>
                          </li>
                          <li class="nav-item navtab">
                               <a class="nav-link " id="settings-tab" data-toggle="tab" href="#settings" role="tab"
-                                   aria-controls="settings" aria-selected="false"><i class="fa fa-cogs"></i>&nbsp Manage
-                                   Offers</a>
+                                   aria-controls="settings" aria-selected="false"><i class="fa fa-cogs"></i>&nbsp Manage Offers</a>
                          </li>
                     </ul>
 
@@ -206,8 +202,6 @@
                                         </div>
                                         <button type="button" class="btn btn-primary btn-lg btn-block" id="addbtn">Add a
                                              vehicle</button>
-                                        <button type="button" class="btn btn-info btn-small"
-                                             id="checkprice">Check Competitor prices</button>
                                         <!-- The Modal -->
                                         <div id="addVehicleForm" class="modal">
 
@@ -248,15 +242,12 @@
                                                             <div class="form-group">
                                                                  <label for="inputDesc">Description</label>
                                                                  <input type="text" class="form-control" id="inputDesc"
-                                                                      name="desc"
-                                                                      placeholder="Four wheel drive, Power steering"
-                                                                      required>
+                                                                      name="desc" placeholder="Four wheel drive, Power steering" required>
                                                             </div>
 
                                                             <div class="form-group">
                                                                  <label for="inputColor">Choose Color</label>
-                                                                 <input type="color" id="inputColor" name="color"
-                                                                      class="color-picker">
+                                                                 <input type="color" id="inputColor" name="color" class="color-picker">
                                                             </div>
 
                                                             <div class="form-group">
@@ -317,25 +308,6 @@
 
                                         </div>
 
-                                             <!-- The Modal -->
-                                             <div id="pricecompare" class="modal" >
-
-                                                  <!-- Modal content -->
-                                                  <div class="modal-content">
-                                                       <span class="close2">&times;</span>
-                                                      
-                                                            <div class="alert alert-danger print-error-msg"
-                                                                 style="display:none">
-                                                                 <ul></ul>
-                                                            </div>
-                                                          <table class="prices"></table>
-                                                     
-                                                     
-                                                  </div>
-     
-                                             </div>
-                                        
-
                                    </div>
                               </div>
                          </div>
@@ -355,11 +327,11 @@
                                                             <th scope="col">DOB</th>
                                                             <th scope="col">Address</th>
                                                             <th scope="col">Mobile</th>
-
+                                             
                                                             <th scope="col">Status</th>
                                                             <th scope="col">Documents</th>
                                                             <th scope="col"></th>
-
+                                                            
 
                                                        </tr>
                                                   </thead>
@@ -368,7 +340,7 @@
                                                        @foreach($users as $user)
                                                        <tr class="vehicle-row">
 
-
+                                                            
                                                             <td class="w-25"><img
                                                                       src="user/profile/image/{{$user->imgLoc}}" alt=""
                                                                       height="50" width="50"></td>
@@ -388,12 +360,9 @@
                                                                  @endif
                                                             </td>
                                                             <td>
-                                                                 <input type="hidden" id="{{$user->id}}doc1"
-                                                                      value="{{$user->UserDocument['drivingLicense']}}">
-                                                                 <input type="hidden" id="{{$user->id}}doc2"
-                                                                      value="{{$user->UserDocument['identityProof']}}">
-                                                                 <button class="open btn btn-primary"
-                                                                      id="{{$user->id}}">View</button>
+                                                            <input type="hidden" id="{{$user->id}}doc1" value="{{$user->UserDocument['drivingLicense']}}">
+                                                            <input type="hidden" id="{{$user->id}}doc2" value="{{$user->UserDocument['identityProof']}}">
+                                                                 <button class="open btn btn-primary" id="{{$user->id}}">View</button>
                                                             </td>
 
                                                        </tr>
@@ -415,141 +384,138 @@
                                    <!--Creates the popup content-->
                                    <span class="close">&times;</span>
                                    <div class="popup-content">
-                                        <div class="drivingLicense">
-                                             <h2>Driving License</h2>
-                                             <img src="" class="licenseImg" height="200" alt="">
-                                        </div>
-                                        <div class="identity">
-                                             <h2>Proof Document</h2>
-                                             <img src="" class="identityImg" height="200" alt="">
-                                        </div>
-
-
-
+                                    <div class="drivingLicense">
+                                     <h2>Driving License</h2>
+                                     <img src="" class="licenseImg"  height="200" alt="">
                                    </div>
-                              </div>
+                                   <div class="identity">
+                                        <h2>Proof Document</h2>
+                                        <img src="" class="identityImg"  height="200" alt="">
+                                   </div>
 
-
-
+                                     
+                                     
+                                      </div>
+                                 </div>
+                                 
+                                 
+                                 
                          </div>
+                    
+                    <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">
+                         <div class="container">
+                              <div class="row">
+                                   <div class="col-md-12 table-area">
+                                        <table class="table table-hover" id="editable2">
+                                             @csrf
+                                             <thead class="table-header">
+                                                  <tr>
+                                                       
+                                                       <th scope="col">ID</th>
+                                                       <th scope="col">Customer name</th>
+                                                       <th scope="col">Vehicle Model</th>
+                                                       <th scope="col">Pickup</th>
+                                                       <th scope="col">Dropoff</th>
+                                                       <th scope="col">Pickup date</th>
+                                        
+                                                       <th scope="col">Dropoff date</th>
+                                                       <th scope="col">Additional Equipments</th>
+                                                       <th scope="col">Status</th>
+                                                       
 
-                         <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">
-                              <div class="container">
-                                   <div class="row">
-                                        <div class="col-md-12 table-area">
-                                             <table class="table table-hover" id="editable2">
-                                                  @csrf
-                                                  <thead class="table-header">
-                                                       <tr>
+                                                  </tr>
+                                             </thead>
+                                             <tbody>
+                                                  @if(isset($bookings))
+                                                  @foreach($bookings as $booking)
+                                                  <tr class="vehicle-row">
 
-                                                            <th scope="col">ID</th>
-                                                            <th scope="col">Customer name</th>
-                                                            <th scope="col">Vehicle Model</th>
-                                                            <th scope="col">Pickup</th>
-                                                            <th scope="col">Dropoff</th>
-                                                            <th scope="col">Pickup date</th>
+                                                       
+                                   
+                                                       <td>{{$booking->id}}</td>
+                                                       <td>{{App\User::find($booking->user_id)->name}}</td>
+                                                       <td>{{App\Vehicle::find($booking->BookingDetail['vehicle_id'])->model}}</td>
+                                                       <td>{{$booking->BookingDetail['pickupLoc']}}</td>
+                                                       <td>{{$booking->BookingDetail['dropoffLoc']}}</td>
+                                                       <td>{{$booking->BookingDetail['pickupDate']}}</td>
+                                                       <td>{{$booking->BookingDetail['dropoffDate']}}</td>
+                                                       <td>
+                                                            <?php $count=1;?>
+                                                           @foreach($booking->bookingAdditionalEquip as $ae)
 
-                                                            <th scope="col">Dropoff date</th>
-                                                            <th scope="col">Additional Equipments</th>
-                                                            <th scope="col">Status</th>
+                                                           {{$count}}. {{App\AdditionalEquip::find($ae->additionalEquip_id)->itemName}}
+                                                           <?php $count++?>
+                                                           <br>
 
+                                                           @endforeach
 
-                                                       </tr>
-                                                  </thead>
-                                                  <tbody>
-                                                       @if(isset($bookings))
-                                                       @foreach($bookings as $booking)
-                                                       <tr class="vehicle-row">
+                                                       </td>
+                                                       <td>
+                                                            @if($booking->status=='i')
+                                                            Pending
+                                                            @elseif($booking->status=='a')
+                                                            Accepted
+                                                            @elseif($booking->status=='c')
+                                                            Cancelled
+                                                            @elseif($booking->status=='p')
+                                                            In-progress
+                                                            @elseif($booking->status=='f')
+                                                            Completed
+                                                            @endif
+                                                       </td>
+                                                       
 
+                                                  </tr>
+                                                  @endforeach
 
+                                                  @endif
 
-                                                            <td>{{$booking->id}}</td>
-                                                            <td>{{App\User::find($booking->user_id)->name}}</td>
-                                                            <td>{{App\Vehicle::find($booking->BookingDetail['vehicle_id'])->model}}
-                                                            </td>
-                                                            <td>{{$booking->BookingDetail['pickupLoc']}}</td>
-                                                            <td>{{$booking->BookingDetail['dropoffLoc']}}</td>
-                                                            <td>{{$booking->BookingDetail['pickupDate']}}</td>
-                                                            <td>{{$booking->BookingDetail['dropoffDate']}}</td>
-                                                            <td>
-                                                                 <?php $count=1;?>
-                                                                 @foreach($booking->bookingAdditionalEquip as $ae)
-
-                                                                 {{$count}}.
-                                                                 {{App\AdditionalEquip::find($ae->additionalEquip_id)->itemName}}
-                                                                 <?php $count++?>
-                                                                 <br>
-
-                                                                 @endforeach
-
-                                                            </td>
-                                                            <td>
-                                                                 @if($booking->status=='i')
-                                                                 Pending
-                                                                 @elseif($booking->status=='a')
-                                                                 Accepted
-                                                                 @elseif($booking->status=='c')
-                                                                 Cancelled
-                                                                 @elseif($booking->status=='p')
-                                                                 In-progress
-                                                                 @elseif($booking->status=='f')
-                                                                 Completed
-                                                                 @endif
-                                                            </td>
-
-
-                                                       </tr>
-                                                       @endforeach
-
-                                                       @endif
-
-                                                  </tbody>
-                                             </table>
-
-                                        </div>
-
+                                             </tbody>
+                                        </table>
 
                                    </div>
 
+
                               </div>
+
                          </div>
-                         <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-                              <div class="container">
-                                   <div class="row">
-                                        <div class="col-md-12 table-area">
-                                             <table class="table table-hover" id="editable3">
-                                                  @csrf
-                                                  <thead class="table-header">
-                                                       <tr>
-                                                            <th scope="col">ID</th>
-                                                            <th scope="col">Image</th>
-                                                            <th scope="col">Title</th>
-                                                            <th scope="col">Description</th>
+                    </div>
+                    <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                         <div class="container">
+                              <div class="row">
+                                   <div class="col-md-12 table-area">
+                                        <table class="table table-hover" id="editable3">
+                                             @csrf
+                                             <thead class="table-header">
+                                                  <tr>
+                                                       <th scope="col">ID</th>
+                                                       <th scope="col">Image</th>
+                                                       <th scope="col">Title</th>
+                                                       <th scope="col">Description</th>
 
-                                                       </tr>
-                                                  </thead>
-                                                  <tbody>
-                                                       @if(isset($offers))
-                                                       @foreach($offers as $offer)
-                                                       <tr class="vehicle-row">
+                                                  </tr>
+                                             </thead>
+                                             <tbody>
+                                                  @if(isset($offers))
+                                                  @foreach($offers as $offer)
+                                                  <tr class="vehicle-row">
 
-                                                            <td scope="row">{{$offer->id}}</td>
-                                                            <td class="w-25" scope="row"><img
-                                                                      src="offer/image/{{$offer->imgLoc}}" alt=""
-                                                                      height="50" width="50"></td>
-                                                            <td scope="row">{{$offer->title}}</td>
-                                                            <td scope="row">{{$offer->description}}</td>
+                                                       <td scope="row">{{$offer->id}}</td>
+                                                       <td class="w-25" scope="row"><img
+                                                                 src="offer/image/{{$offer->imgLoc}}" alt=""
+                                                                 height="50" width="50"></td>
+                                                       <td scope="row">{{$offer->title}}</td>
+                                                       <td scope="row">{{$offer->description}}</td>
 
-                                                       </tr>
-                                                       @endforeach
+                                                  </tr>
+                                                  @endforeach
 
-                                                       @endif
+                                                  @endif
 
-                                                  </tbody>
-                                             </table>
-                                        </div>
-                                        <button type="button" class="btn btn-primary btn-lg btn-block"
-                                             id="offeraddbtn">Add offer</button>
+                                             </tbody>
+                                        </table>
+                                   </div>
+                                   <button type="button" class="btn btn-primary btn-lg btn-block" id="offeraddbtn">Add offer</button>
 
                                         <!-- The Modal -->
                                         <div id="addOfferForm" class="modal">
@@ -569,16 +535,15 @@
                                                                  <input type="text" class="form-control" id="title"
                                                                       name="title" placeholder="Title" required>
                                                             </div>
-
+                                                            
                                                             <br>
                                                             <div class="form-group">
                                                                  <label for="description">Description</label>
-                                                                 <input type="text" class="form-control"
-                                                                      id="description" name="description"
-                                                                      placeholder="Offer details" required>
+                                                                 <input type="text" class="form-control" id="description"
+                                                                      name="description" placeholder="Offer details" required>
                                                             </div>
 
-
+                                                            
                                                             <div class="form-group">
                                                                  <div class="custom-file">
 
@@ -594,19 +559,18 @@
                                                             </div>
 
 
-                                                            <input class="btn btn-primary" type="submit"
-                                                                 id="formaddoffer" value="Add">
+                                                            <input class="btn btn-primary" type="submit" id="formaddoffer"
+                                                                 value="Add">
                                                        </div>
                                                   </form>
                                              </div>
 
                                         </div>
-
-                                   </div>
                               </div>
                          </div>
                     </div>
                </div>
+          </div>
           </div>
           </div>
      </section>
@@ -700,17 +664,14 @@
           // Get the modal
           var modal = document.getElementById("addVehicleForm");
           var modal1 = document.getElementById("addOfferForm");
-          var modal2 = document.getElementById("pricecompare");
 
           // Get the button that opens the modal
           var btn = document.getElementById("addbtn");
           var offeraddbtn = document.getElementById("offeraddbtn");
-          var checkprice = document.getElementById("checkprice");
 
           // Get the <span> element that closes the modal
           var span = document.getElementsByClassName("close")[0];
           var span1 = document.getElementsByClassName("close1")[0];
-          var span2 = document.getElementsByClassName("close2")[0];
 
           // When the user clicks the button, open the modal 
           btn.onclick = function () {
@@ -719,31 +680,9 @@
                modal.style.display = "block";
           }
 
-          offeraddbtn.onclick = function () {
-               modal1.style.visibility = "visible";
-               modal1.style.display = "block";
-          }
-          checkprice.onclick = function () {
-               modal2.style.visibility = "visible";
-               modal2.style.display = "block";
-               $.ajaxSetup({
-                    headers: {
-                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-               });
-
-
-               $.ajax({
-                    type: 'GET',
-                    url: "/scrape",
-                    data: 'json',
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: (data) => {
-                         document.getElementsByClassName("prices").innerHTML = data;
-                    }
-               });
+          offeraddbtn.onclick = function(){
+               modal1.style.visibility= "visible";
+               modal1.style.display= "block";
           }
 
           // When the user clicks on <span> (x), close the modal
@@ -753,14 +692,9 @@
 
           }
 
-          span1.onclick = function () {
+          span1.onclick = function(){
                modal1.style.visibility = "hidden";
                modal1.style.display = "none";
-          }
-
-          span2.onclick = function () {
-               modal2.style.visibility = "hidden";
-               modal2.style.display = "none";
           }
 
           // When the user clicks anywhere outside of the modal, close it
@@ -768,20 +702,17 @@
                if (event.target == modal) {
                     modal.style.visibility = "hidden";
                     modal.style.display = "none";
-               } else if (event.target == modal1) {
+               }else if(event.target == modal1){
                     modal1.style.visibility = "hidden";
                     modal1.style.display = "none";
-               } else if (event.target == modal2) {
-                    modal2.style.visibility = "hidden";
-                    modal2.style.display = "none";
                }
-
+              
           }
 
           //Adding vehicle function
           $("#addVehicle").on('submit', function (event) {
                event.preventDefault();
-               // var formData = new FormData(this);
+              // var formData = new FormData(this);
                $.ajaxSetup({
                     headers: {
                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -815,7 +746,7 @@
           //Adding offer function
           $("#addOffer").on('submit', function (event) {
                event.preventDefault();
-               // var formData = new FormData(this);
+              // var formData = new FormData(this);
                $.ajaxSetup({
                     headers: {
                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -913,7 +844,8 @@
                          if (data.action == 'delete') {
                               $('#' + data.id).remove();
                          }
-                         else if (data == 'FRAUD') {
+                         else if(data=='FRAUD')
+                         {
                               alert('User has got fraudalent claims !');
                          }
                     }
@@ -927,7 +859,7 @@
                     type: 'POST',
                     columns: {
                          identifier: [0, 'id'],
-                         editable: [[2, 'title'], [3, 'description']]
+                         editable: [[2, 'title'],[3,'description']]
                     },
                     restoreButton: false,
                     onSuccess: function (data, textStatus, jqXHR) {
@@ -938,32 +870,32 @@
 
                });
 
-               $(document).keydown(function (event) {
-                    if (event.keyCode == 27) {
-                         modal.style.display = "none";
-                         modal.style.visibility = "hidden";
-                         modal1.style.display = "none";
-                         modal1.style.visibility = "hidden";
-                    }
-               });
+          $(document).keydown(function(event){
+               if(event.keyCode==27){
+                    modal.style.display="none";
+                    modal.style.visibility="hidden";
+                    modal1.style.display="none";
+                    modal1.style.visibility="hidden";
+               }
+          });
 
           });
 
-
+        
 
           //Display of user documents
 
 
-          $(".open").on("click", function (e) {
-               $userid = e.target.id;
-               $('.licenseImg').attr('src', "user/profile/document/" + $("#" + $userid + "doc1").val());
-               $('.identityImg').attr('src', "user/profile/document/" + $("#" + $userid + "doc2").val());
-               $(".popup-overlay, .popup-content").addClass("active").fadeIn("slow");
+          $(".open").on("click", function(e) {
+            $userid=e.target.id;
+            $('.licenseImg').attr('src',"user/profile/document/"+$("#"+$userid+"doc1").val());
+            $('.identityImg').attr('src',"user/profile/document/"+$("#"+$userid+"doc2").val());
+           $(".popup-overlay, .popup-content").addClass("active").fadeIn("slow");
           });
 
           //removes the "active" class to .popup and .popup-content when the "Close" button is clicked 
-          $(".close, .popup-overlay").on("click", function () {
-               $(".popup-overlay, .popup-content").removeClass("active").fadeOut("slow");
+          $(".close, .popup-overlay").on("click", function() {
+          $(".popup-overlay, .popup-content").removeClass("active").fadeOut("slow");
           });
 
      </script>
