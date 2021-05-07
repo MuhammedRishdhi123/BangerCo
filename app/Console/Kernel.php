@@ -50,11 +50,13 @@ class Kernel extends ConsoleKernel
             foreach($users as $user){
                 $bookings=$user->booking()->get();
                 foreach($bookings as $booking){
+                    if($booking->status=='a'){
                     $bookingdetail=$booking->bookingDetail()->get();
-                    if(strtotime($bookingdetail[0]->pickupDate) > time()){
+                    if(strtotime($bookingdetail[0]->pickupDate) < time()){
                         $user->status='b';
                         $user->save();
                     }
+                }
                 }
             }
         })->everyMinute();

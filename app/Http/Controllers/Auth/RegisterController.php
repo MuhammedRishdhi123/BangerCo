@@ -166,7 +166,7 @@ class RegisterController extends Controller
             $licenseNo=$request['licenseNo'];
             $email=$request['email'];
             Mail::to($dmvEmail)->send(new ComplaintEmail($date,$licenseNo,$email));
-            return redirect($this->redirectPath())->with('info','Something went wrong please try again later!');
+            return redirect($this->redirectPath())->with('info','Your License has been suspended or lost Please contact the DMV for more info!');
         }
     }
 

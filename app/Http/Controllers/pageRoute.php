@@ -75,6 +75,11 @@ class pageRoute extends Controller
         return view('profile');
     }
 
+    public function registerAdmin()
+    {
+        return view('auth.registerAdmin');
+    }
+
 
     public function adminPanel()
     {

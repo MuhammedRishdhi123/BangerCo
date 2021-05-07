@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->date('dob');
             $table->string('address');
             $table->string('mobile');
-            $table->string('licenseNo');
+            $table->string('licenseNo')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

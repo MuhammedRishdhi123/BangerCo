@@ -150,6 +150,11 @@
                          {{ session('success') }}
                     </div>
                     @endif
+                    @if (session()->has('invalid'))
+                    <div class="alert alert-info">
+                         {{ session('invalid') }}
+                    </div>
+                    @endif
                     @if ($errors->any())
                     <div class="alert alert-danger">
                          <ul class="list-unstyled">

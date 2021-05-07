@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Carbon\Carbon;
@@ -10,15 +16,20 @@ use App\VehicleRate;
 use App\User;
 use App\Booking;
 use App\Offer;
+use App\ViewCustomer;
+use App\Role;
+use App\WebScrape;
 use Mail;
 use App\Mail\RegisterEmail;
 use Goutte\Client;
-
-use Illuminate\Support\Facades\Validator;
+use GuzzleHttp\Client as GuzzleClient;
 use DB;
 
 class adminController extends Controller
 {
+
+    use RegistersUsers;
+    protected $redirectTo = '/';
     
     public function userAction(Request $request)
     {
@@ -56,26 +67,10 @@ class adminController extends Controller
         {
             if($request->action=='edit')
             {
-                
                 $booking=Booking::find($request->id);
-                if($request['status']=='p'){
-                    $client = new \GuzzleHttp\Client();
-                    $response = $client->request('get','http://127.0.0.1:8080/checkInsurance/'.$booking->user->licenseNo);
-                    \Log::info($booking);
-                   if($response->getBody()=='true'){
-                      return response()->json('FRAUD');
-                   }
-                   else{
-                    $booking->status=$request['status'];
-                    $booking->save();
-                   }
-                  
-                }
-                else
-                {
-                 $booking->status=$request['status'];
-                 $booking->save();
-                }
+                $booking->status=$request['status'];
+                $booking->save();
+                
                 
             }
             if($request->action=='delete')
@@ -112,20 +107,114 @@ class adminController extends Controller
     public function scrape()
     {
         $data=array();
-        $client = new Client();
-        $crawler = $client->request('GET', 'https://www.malkey.lk/rates/self-drive-rates.html');
-        $crawler->filter('table tbody tr')->each(function($node,$j=0){
-           $vehicledata=array();
-            $node->filter('td')->each(function($node1,$i=0){
-                global $vehicledata;
-               $vehicledata[$i]=$node1->text();
-               $i++;
-            });
-           // $data[$j]=$vehicledata;
-            \Log::info( $vehicledata);
-            $j++;
+        $goutteClient = new Client();
+        $guzzleClient = new GuzzleClient(array('timeout'=>60,));
+        $goutteClient->setClient($guzzleClient);
+        $crawler = $goutteClient->request('GET', 'https://www.malkey.lk/rates/self-drive-rates.html');
+        $crawler->filter('table tbody tr')->each(function($node) use (&$data){
+        $vehicle=new \stdClass();
+             $node->filter('td.text-left.percent-40')->each(function($node1) use (&$vehicle){
+                $vehicle->name=$node1->text();
+             });
+             $count=0;
+             $node->filter('td.text-center.percent-22')->each(function($node1) use (&$vehicle,&$count){
+                 if($count==0){
+                     $vehicle->monthly=$node1->text();
+                     $count++;
+                 }
+                 else if($count==1){
+                    $vehicle->weekly=$node1->text();
+                    $count++;
+                 }
+                 else{
+                    $vehicle->millage=$node1->text();
+                 }
+             });
+             
+           $data[]=$vehicle;
         });
         return $data;
+      
     }
+
+
+
+    //Admin registration
+
+      /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        $attributeNames=array(
+            'name'=>'Name',
+            'email'=>'Email',
+            'password'=>'Password',
+            'dob'=>'Date of birth',
+            'address'=>'Address',
+            'mobile'=>'Mobile',
+        );
+       $validator= Validator::make($data, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+            'dob'=>'required',
+            'address'=>'required',
+            'mobile'=>'required',
+            'role'=>'required|string'
+        ]);
+        $validator->setAttributeNames($attributeNames);
+        return $validator;
+    }
+
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  array  $data
+     * @return \App\User
+     */
+    protected function create(array $data)
+    {
+        $user=User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'imgLoc'=> 'default.png',
+            'status'=>'a',
+            'dob'=>$data['dob'],
+            'address'=>$data['address'],
+            'mobile'=>$data['mobile'],
+        ]);
+        
+
+        Role::create([
+            'user_id'=>$user->id,
+            'roleName'=>$data['role']
+        ]);
+
+        return $user; 
+    }
+
+
+
+    public function register(Request $request)
+    {
+
+        $this->validator($request->all())->validate();
+           
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+                        ?: redirect($this->redirectPath())->with('info','Welcome to Banger Co '. $user->name);
+        
+        
+    }
+
+
     
 }

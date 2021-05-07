@@ -8,6 +8,7 @@ use App\AdditionalEquip;
 use App\Booking;
 use App\BookingAdditionalEquip;
 use App\User;
+use App\ViewCustomer;
 use Illuminate\Http\Request;
 use Auth;
 use DateTime;
@@ -90,6 +91,8 @@ class bookingController extends Controller
          
      ]);
 
+    $check=self::checkCustomer(Auth::user()->id);
+    if(!$check){
      if(!$validator->fails())
      {
         $booking=Booking::create([
@@ -128,6 +131,10 @@ class bookingController extends Controller
      {
         return back()->withErrors($validator)->withInput();
      }
+   }
+   else{
+      return redirect()->route('allBooking')->with('invalid','Your account is found to blocked. Please contact our staff for more info.');
+   }
    }
 
 
@@ -199,5 +206,20 @@ class bookingController extends Controller
      else{
         return response()->json(['error'=>'Sorry, unable to extend the booking !']);
      }
+   }
+
+
+
+   public function checkCustomer($userId)
+   {
+      $found=false;
+      $user=User::find($userId);
+      $invalidCustomers=ViewCustomer::where("status","blacklisted")->get();
+      foreach($invalidCustomers as $ic){
+         if($ic->licenseNo == $user->licenseNo){
+            $found=true;
+         }
+      }
+      return $found;
    }
 }

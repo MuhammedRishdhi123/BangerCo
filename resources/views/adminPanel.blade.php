@@ -695,6 +695,7 @@
      <script src="js/smoothscroll.js"></script>
      <script src="js/custom.js"></script>
      <script src="js/jquery.tabledit.min.js"></script>
+     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
      <script>
           // Get the modal
@@ -705,7 +706,7 @@
           // Get the button that opens the modal
           var btn = document.getElementById("addbtn");
           var offeraddbtn = document.getElementById("offeraddbtn");
-          var checkprice = document.getElementById("checkprice");
+          var checkpricebtn = document.getElementById("checkprice");
 
           // Get the <span> element that closes the modal
           var span = document.getElementsByClassName("close")[0];
@@ -723,7 +724,7 @@
                modal1.style.visibility = "visible";
                modal1.style.display = "block";
           }
-          checkprice.onclick = function () {
+          checkpricebtn.onclick = function () {
                modal2.style.visibility = "visible";
                modal2.style.display = "block";
                $.ajaxSetup({
@@ -736,14 +737,16 @@
                $.ajax({
                     type: 'GET',
                     url: "/scrape",
-                    data: 'json',
+                    dataType: 'JSON',
                     cache: false,
                     contentType: false,
                     processData: false,
                     success: (data) => {
-                         document.getElementsByClassName("prices").innerHTML = data;
+                        
                     }
                });
+
+          
           }
 
           // When the user clicks on <span> (x), close the modal
