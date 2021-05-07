@@ -328,7 +328,18 @@
                                                                  style="display:none">
                                                                  <ul></ul>
                                                             </div>
-                                                          <table class="prices"></table>
+                                                          <table class="prices table-responsive">
+                                                               <thead>
+                                                                    <tr>
+                                                                         <th style="min-width:300px;">Vehicle Name</th>
+                                                                         <th style="min-width:100px;">Monthly rate</th>
+                                                                         <th style="min-width:100px;">Weekly rate</th>
+                                                                         <th style="min-width:100px;">M-Per-KM</th>
+                                                                    </tr>
+                                                               </thead>
+                                                               <tbody>
+                                                               </tbody>
+                                                          </table>
                                                      
                                                      
                                                   </div>
@@ -742,9 +753,30 @@
                     contentType: false,
                     processData: false,
                     success: (data) => {
+                         var i;
+                         for(i=0;i<data.length;i++){
+                              if(typeof data[i].name != 'undefined'){
+                                   $('.prices tbody').append('<tr>'+'<td>'+data[i].name+'</td>'+'<td>'+data[i].monthly+'</td>'+'<td>'+data[i].weekly+'</td>'+'<td>'+data[i].millage+'</td>'+'</tr>');
+                              }
+                         }
                         
                     }
                });
+
+
+          //      var table = $('.prices').DataTable({
+          //      ajax: "/scrape",
+          //      searching: false,
+          //      paging:false,
+          //      dataSrc: "data.json",
+          //      columns: [
+          //           {data: 'name', name: 'name'},
+          //           {data: 'monthly', name: 'monthly'},
+          //           {data: 'weekly', name: 'weekly'},
+          //           {data: 'millage', name: 'millage'},
+                    
+          //      ]
+          // });
 
           
           }

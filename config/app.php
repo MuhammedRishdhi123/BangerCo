@@ -148,6 +148,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Weidner\Goutte\GoutteServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -212,6 +213,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Goutte' => Weidner\Goutte\GoutteFacade::class,
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
 
     ],
 

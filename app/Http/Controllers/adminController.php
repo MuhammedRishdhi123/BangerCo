@@ -24,6 +24,7 @@ use App\Mail\RegisterEmail;
 use Goutte\Client;
 use GuzzleHttp\Client as GuzzleClient;
 use DB;
+use DataTables;
 
 class adminController extends Controller
 {
@@ -111,7 +112,8 @@ class adminController extends Controller
         $guzzleClient = new GuzzleClient(array('timeout'=>60,));
         $goutteClient->setClient($guzzleClient);
         $crawler = $goutteClient->request('GET', 'https://www.malkey.lk/rates/self-drive-rates.html');
-        $crawler->filter('table tbody tr')->each(function($node) use (&$data){
+        $outercounter=0;
+        $crawler->filter('table tbody tr')->each(function($node) use (&$data,&$outercounter){
         $vehicle=new \stdClass();
              $node->filter('td.text-left.percent-40')->each(function($node1) use (&$vehicle){
                 $vehicle->name=$node1->text();
@@ -130,9 +132,13 @@ class adminController extends Controller
                     $vehicle->millage=$node1->text();
                  }
              });
-             
-           $data[]=$vehicle;
+             if($outercounter > 0){
+                 $data[]=$vehicle;
+             }
+             $outercounter++;
+           
         });
+        //$data=json_encode($data);
         return $data;
       
     }
