@@ -44,7 +44,6 @@ Route::post('/bookingAction','adminController@bookingAction')->name('bookingActi
 Route::post('/offerAction','adminController@offerAction')->name('offerAction')->middleware(['auth','auth.admin']);
 Route::post('/addOffer','offerController@addOffer')->middleware(['auth','auth.admin']);
 Route::get('/scrape','adminController@scrape');
-Route::get('/get','adminController@getData');
 Route::get('/registerAdmin','PageRoute@registerAdmin');
 Route::post('/saveAdmin','adminController@register')->name('adminregister');
 Auth::routes();

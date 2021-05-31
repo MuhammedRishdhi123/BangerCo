@@ -76,7 +76,7 @@
      <section class="bg-f8f8f8">
         <div class="container">
              <div class="text-center">
-                  <h1>Register</h1>
+                  <h1>Register Admin</h1>
 
              </div>
         </div>

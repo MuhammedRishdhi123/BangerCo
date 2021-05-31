@@ -171,10 +171,20 @@
 
                               <div class="courses-info">
                                    @if($vehicle->status=='on')
-                                   <button type="button" data-toggle="modal" data-target="#myModal"
-                                        id="{{$vehicle->id}}"
-                                        class="section-btn btn btn-primary btn-block checkAvailbtn">View
-                                        details</button>
+                                        @if(!Auth::guest())
+                                             @if(Auth::user()->role['roleName']=='customer')
+                                             <button type="button" data-toggle="modal" data-target="#myModal"
+                                                  id="{{$vehicle->id}}"
+                                                  class="section-btn btn btn-primary btn-block checkAvailbtn">View
+                                                  details</button>
+                                             @endif
+                                        @else
+                                        <button type="button" data-toggle="modal" data-target="#myModal"
+                                             id="{{$vehicle->id}}"
+                                             class="section-btn btn btn-primary btn-block checkAvailbtn">View
+                                             details</button>
+                                        @endif
+
                                    @endif
                               </div>
                          </div>
@@ -224,11 +234,11 @@
                               <input type="hidden" name="vehicleid" id="vehicleid">
                               <span class="dateinput"><b>Pickup date</b></span>
                                    
-                              <input type="datetime-local" name="fromDate" id="fromDate" step="1" min="{{date('Y-m-d\Th:i:s',time())}}" autocomplete="off" style="background: transparent;">
+                              <input type="datetime-local" name="fromDate" id="fromDate" step="1" min="{{date('Y-m-d\Th:i:s',time())}}" autocomplete="off" style="background: transparent;" required>
                               <br><br>
                               <span class="dateinput"><b>Dropoff date</b></span>
                               
-                              <input type="datetime-local" name="toDate" id="toDate" step="1" min="{{date('Y-m-d\Th:i:s',time())}}" autocomplete="off" style="background: transparent;">
+                              <input type="datetime-local" name="toDate" id="toDate" step="1" min="{{date('Y-m-d\Th:i:s',time())}}" autocomplete="off" style="background: transparent;" required>
                               
 
                     </div>

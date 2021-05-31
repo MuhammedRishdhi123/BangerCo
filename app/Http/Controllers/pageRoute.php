@@ -7,6 +7,7 @@ use App\Booking;
 use App\User;
 use App\Offer;
 use App\Testimonial;
+use App\contactQuery;
 use DateTime;
 use Auth;
 
@@ -87,7 +88,8 @@ class pageRoute extends Controller
         $users=User::with('UserDocument')->where('id','!=',Auth::user()->id)->paginate(15);
         $vehicles=Vehicle::with('VehicleRate')->paginate(15);
         $offers=Offer::paginate(15);
-        return view('adminPanel')->with(['vehicles'=>$vehicles,'users'=>$users,'bookings'=>$bookings,'offers'=>$offers]);
+        $inquiries=contactQuery::paginate(15);
+        return view('adminPanel')->with(['vehicles'=>$vehicles,'users'=>$users,'bookings'=>$bookings,'offers'=>$offers,'inquiries'=>$inquiries]);
     }
 
   

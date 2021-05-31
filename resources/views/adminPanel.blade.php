@@ -152,6 +152,11 @@
                                    aria-controls="settings" aria-selected="false"><i class="fa fa-cogs"></i>&nbsp Manage
                                    Offers</a>
                          </li>
+                         <li class="nav-item navtab">
+                              <a class="nav-link " id="inquiries-tab" data-toggle="tab" href="#inquiries" role="tab"
+                                   aria-controls="inquiries" aria-selected="false"><i class="fa fa-inbox"></i>&nbsp Manage
+                                   Inquires</a>
+                         </li>
                     </ul>
 
                     <!-- Tab panes -->
@@ -616,6 +621,41 @@
                                    </div>
                               </div>
                          </div>
+                         <div class="tab-pane" id="inquiries" role="tabpanel" aria-labelledby="inquiries-tab">
+                              <div class="container">
+                                   <div class="row">
+                                        <div class="col-md-12 table-area">
+                                             <table class="table table-hover" id="editable4">
+                                                  @csrf
+                                                  <thead class="table-header">
+                                                       <tr>
+                                                            <th scope="col">ID</th>
+                                                            <th scope="col">Name</th>
+                                                            <th scope="col">Email</th>
+                                                            <th scope="col">Message</th>
+                                                       </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                       @if(isset($inquiries))
+                                                       @foreach($inquiries as $inquiry)
+                                                       <tr class="vehicle-row">
+
+                                                            <td scope="row">{{$inquiry->id}}</td>
+                                                            <td scope="row">{{$inquiry->fullname}}</td>
+                                                            <td scope="row"><a style="font-weight:bolder;" href="mailto:{{$inquiry->email}}">{{$inquiry->email}}</a></td>
+                                                            <td scope="row">{{$inquiry->message}}</td>
+
+                                                       </tr>
+                                                       @endforeach
+
+                                                       @endif
+
+                                                  </tbody>
+                                             </table>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
                     </div>
                </div>
           </div>
@@ -764,20 +804,7 @@
                });
 
 
-          //      var table = $('.prices').DataTable({
-          //      ajax: "/scrape",
-          //      searching: false,
-          //      paging:false,
-          //      dataSrc: "data.json",
-          //      columns: [
-          //           {data: 'name', name: 'name'},
-          //           {data: 'monthly', name: 'monthly'},
-          //           {data: 'weekly', name: 'weekly'},
-          //           {data: 'millage', name: 'millage'},
-                    
-          //      ]
-          // });
-
+         
           
           }
 
@@ -794,6 +821,7 @@
           }
 
           span2.onclick = function () {
+               $(".prices tbody tr").remove(); 
                modal2.style.visibility = "hidden";
                modal2.style.display = "none";
           }
@@ -807,6 +835,7 @@
                     modal1.style.visibility = "hidden";
                     modal1.style.display = "none";
                } else if (event.target == modal2) {
+                    $(".prices tbody tr").remove(); 
                     modal2.style.visibility = "hidden";
                     modal2.style.display = "none";
                }

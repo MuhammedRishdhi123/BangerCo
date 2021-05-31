@@ -93,7 +93,7 @@ class adminController extends Controller
                 $offer=Offer::find($request->id);
                 $offer->title=$request['title'];
                 $offer->description=$request['description'];
-                $user->save();
+                $offer->save();
             }
             if($request->action=='delete')
             {
